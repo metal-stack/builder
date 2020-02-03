@@ -13,5 +13,5 @@ jobs:
     - name: Build the Docker images
       run: |
         docker login -u majst01 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-        docker build -t metalstack/builder:${{ github.ref }}
+        docker build -t metalstack/builder:${{ github.ref }} .
         docker push metalstack/builder:${{ github.ref }}
