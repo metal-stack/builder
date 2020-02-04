@@ -5,16 +5,37 @@ ENV COMMONDIR=/common \
     VERSION_GOLANGCI_LINT=1.23.2 \
     PROTOC_VERSION=3.11.3
 
+# swagger and required packages
 RUN apt-get update \
- && apt-get -y install make git libpcap-dev unzip \
+ && apt-get -y install --no-install-recommends \
+        apt-transport-https \
+        apt-utils \
+        make \
+        git \
+        libpcap-dev \
+        python-pip \
+        python-setuptools \
+        software-properties-common \
+        unzip \
  && curl -fsSL https://github.com/go-swagger/go-swagger/releases/download/v${VERSION_GO_SWAGGER}/swagger_linux_amd64 > /usr/bin/swagger \
  && chmod +x /usr/bin/swagger
 
+# protoc
 RUN curl -fsSLO https://github.com/google/protobuf/releases/download/v$PROTOC_VERSION/protoc-$PROTOC_VERSION-linux-x86_64.zip \
  && unzip "protoc-$PROTOC_VERSION-linux-x86_64.zip" -d protoc \
  && mv protoc/bin/* /usr/local/bin/ \
  && mv protoc/include/* /usr/local/include/ \
  && go get -u github.com/golang/protobuf/protoc-gen-go
+
+# docker-make
+RUN curl -fLsS https://download.docker.com/linux/debian/gpg > docker.key \
+ && apt-key add docker.key \
+ && rm -f docker.key \
+ && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian buster stable" \
+ && apt-get update \
+ && apt-get install --yes --no-install-recommends docker-ce \
+ && pip install pip --upgrade \
+ && pip install --extra-index-url https://pypi.fi-ts.io docker-make
 
 WORKDIR /common
 COPY Makefile.inc /common/Makefile.inc
