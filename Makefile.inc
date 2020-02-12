@@ -22,10 +22,10 @@ ifeq ($(CGO_ENABLED),1)
 endif
 
 LINKMODE := $(LINKMODE) \
-		 -X 'github.com/metal-pod/v.Version=$(VERSION)' \
-		 -X 'github.com/metal-pod/v.Revision=$(GITVERSION)' \
-		 -X 'github.com/metal-pod/v.GitSHA1=$(SHA)' \
-		 -X 'github.com/metal-pod/v.BuildDate=$(BUILDDATE)'
+		 -X 'github.com/metal-stack/v.Version=$(VERSION)' \
+		 -X 'github.com/metal-stack/v.Revision=$(GITVERSION)' \
+		 -X 'github.com/metal-stack/v.GitSHA1=$(SHA)' \
+		 -X 'github.com/metal-stack/v.BuildDate=$(BUILDDATE)'
 
 .PHONY: all
 all:: bin/$(BINARY);
