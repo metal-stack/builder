@@ -110,3 +110,7 @@ golangci: golangcicheck
 .PHONY: gofmt
 gofmt:
 	$(GO) fmt ./...
+
+.PHONY: moduleupdate
+moduleupdate:
+	go list -u -m -json all | docker run -i psampaz/go-mod-outdated -update -direct
