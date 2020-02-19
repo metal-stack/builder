@@ -37,6 +37,11 @@ RUN curl -fLsS https://download.docker.com/linux/debian/gpg > docker.key \
  && pip install pip --upgrade \
  && pip install --extra-index-url https://pypi.fi-ts.io docker-make
 
+# mc
+RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc \
+ && chmod +x mc \
+ && mv mc /bin/mc
+
 WORKDIR /common
 COPY Makefile.inc /common/Makefile.inc
 COPY time.go /common/time.go
