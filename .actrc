@@ -1,0 +1,2 @@
+# settings used for local testing with replacements
+-P ubuntu-latest=ulrichschreiner/go-web-dev

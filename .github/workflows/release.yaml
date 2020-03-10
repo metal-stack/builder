@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Build the Docker images
+    - name: Build and push the released Docker images
       run: |
-        docker login -u metalstackci -p ${{ secrets.DOCKER_HUB_TOKEN }}
-        docker build -t metalstack/builder:${{ github.ref }} .
-        docker push metalstack/builder:${{ github.ref }}
+        if [ "${{ secrets.DOCKER_HUB_TOKEN }}" != "undefined" -a "${{secrets.DOCKER_HUB_TOKEN }}" != "" ]; then
+          docker login -u metalstackci -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker build -t metalstack/builder:${{ github.ref }} .
+          docker push metalstack/builder:${{ github.ref }}
+        fi
