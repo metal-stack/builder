@@ -1,0 +1,6 @@
+---
+registries:
+  docker.io:
+    repositories:
+    auth:
+

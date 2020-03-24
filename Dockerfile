@@ -36,7 +36,9 @@ RUN curl -fLsS https://download.docker.com/linux/debian/gpg > docker.key \
  && apt-get update \
  && apt-get install --yes --no-install-recommends docker-ce \
  && pip install pip --upgrade \
- && pip install --extra-index-url https://pypi.fi-ts.io docker-make
+ && pip install --extra-index-url https://pypi.fi-ts.io docker-make \
+ && mkdir -p /etc/docker-make \
+ && mv registries.yaml /etc/docker-make
 
 # mc
 RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc \
