@@ -38,7 +38,7 @@ RUN curl -fLsS https://download.docker.com/linux/debian/gpg > docker.key \
  && pip install pip --upgrade \
  && pip install --extra-index-url https://pypi.fi-ts.io docker-make \
  && mkdir -p /etc/docker-make
-COPY registries.yaml /etc/docker-make
+COPY registries.yaml /etc/docker-make/registries.yaml
 
 # mc
 RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc \
