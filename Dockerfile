@@ -1,9 +1,9 @@
 FROM golang:1.13-buster as builder
 
 ENV COMMONDIR=/common \
-    VERSION_GO_SWAGGER=0.19.0 \
-    VERSION_GOLANGCI_LINT=1.23.2 \
-    PROTOC_VERSION=3.11.3
+    VERSION_GO_SWAGGER=0.23.0 \
+    VERSION_GOLANGCI_LINT=1.24.0 \
+    PROTOC_VERSION=3.11.4
 
 # swagger and required packages
 RUN apt-get update \
