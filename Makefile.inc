@@ -83,14 +83,10 @@ test-ci:
 test-integration:
 	CGO_ENABLED=1 $(GO) test -tags=integration -p 1 -cover ./...
 
-.PHONY: swaggercheck
-swaggercheck:
-	@hash swagger 2>/dev/null || (echo "swagger is required but not available in current PATH. See https://github.com/go-swagger/go-swagger/releases/."; exit 1)
-
 .PHONY: swaggergenerate
-swaggergenerate: swaggercheck
+swaggergenerate:
 	echo $(SWAGGERSPEC)
-	GO111MODULE=off swagger generate client -f $(SWAGGERSPEC) -t $(SWAGGERTARGET) --skip-validation
+	GO111MODULE=off docker run -it --user $$(id -u):$$(id -g) --rm -v ${PWD}:/work metalstack/builder swagger generate client -f $(SWAGGERSPEC) -t $(SWAGGERTARGET) --skip-validation
 
 # Static code analysis
 .PHONY: check
