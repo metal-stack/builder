@@ -1,4 +1,4 @@
-FROM golang:1.14-buster as builder
+FROM golang:1.14.2-buster as builder
 
 ENV COMMONDIR=/common \
     VERSION_GO_SWAGGER=0.19.0 \
