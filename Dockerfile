@@ -5,6 +5,13 @@ ENV COMMONDIR=/common \
     VERSION_GOLANGCI_LINT=1.23.2 \
     PROTOC_VERSION=3.11.3
 
+# golangci-lint
+RUN curl -fsSLO https://github.com/golangci/golangci-lint/releases/download/v${VERSION_GOLANGCI_LINT}/golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64.tar.gz \
+ && tar --extract --file golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64.tar.gz \
+ && chmod +x golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64/golangci-lint \
+ && mv golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64/golangci-lint /usr/bin \
+ && rm -f golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64.tar.gz
+
 # swagger and required packages
 RUN apt-get update \
  && apt-get -y install --no-install-recommends \
