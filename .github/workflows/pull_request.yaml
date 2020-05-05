@@ -1,0 +1,19 @@
+name: Build image from pull request
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build and push the released Docker images
+      run: |
+        if [ "${{ secrets.DOCKER_HUB_TOKEN }}" != "undefined" -a "${{secrets.DOCKER_HUB_TOKEN }}" != "" ]; then
+          docker login -u metalstackci -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker build -t metalstack/builder:pr-${{ github.ref }} .
+          docker push metalstack/builder:pr-${{ github.ref }}
+        fi
