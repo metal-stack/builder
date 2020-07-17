@@ -1,9 +1,17 @@
-FROM golang:1.14.4-buster as builder
+FROM golang:1.14.6-buster as builder
 
 ENV COMMONDIR=/common \
     VERSION_GO_SWAGGER=0.19.0 \
-    VERSION_GOLANGCI_LINT=1.27.0 \
-    PROTOC_VERSION=3.12.3
+    VERSION_GOLANGCI_LINT=1.28.3 \
+    VERSION_JQ=1.6 \
+    VERSION_PROTOC=3.12.3
+
+# golangci-lint
+RUN curl -fsSLO https://github.com/golangci/golangci-lint/releases/download/v${VERSION_GOLANGCI_LINT}/golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64.tar.gz \
+ && tar --extract --file golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64.tar.gz \
+ && chmod +x golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64/golangci-lint \
+ && mv golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64/golangci-lint /usr/bin \
+ && rm -f golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64.tar.gz
 
 # swagger and required packages
 RUN apt-get update \
@@ -14,15 +22,19 @@ RUN apt-get update \
         git \
         libpcap-dev \
         python-pip \
-        python-setuptools \
+        python-setuptools \ 
         software-properties-common \
         unzip \
  && curl -fsSL https://github.com/go-swagger/go-swagger/releases/download/v${VERSION_GO_SWAGGER}/swagger_linux_amd64 > /usr/bin/swagger \
  && chmod +x /usr/bin/swagger
 
+# jq
+RUN curl -LSs https://github.com/stedolan/jq/releases/download/jq-${VERSION_JQ}/jq-linux64 -o /usr/local/bin/jq \
+ && chmod +x /usr/local/bin/jq
+
 # protoc
-RUN curl -fsSLO https://github.com/google/protobuf/releases/download/v$PROTOC_VERSION/protoc-$PROTOC_VERSION-linux-x86_64.zip \
- && unzip "protoc-$PROTOC_VERSION-linux-x86_64.zip" -d protoc \
+RUN curl -fsSLO https://github.com/google/protobuf/releases/download/v${VERSION_PROTOC}/protoc-${VERSION_PROTOC}-linux-x86_64.zip \
+ && unzip "protoc-${VERSION_PROTOC}-linux-x86_64.zip" -d protoc \
  && chmod -R o+rx protoc/ \
  && mv protoc/bin/* /usr/local/bin/ \
  && mv protoc/include/* /usr/local/include/ \
