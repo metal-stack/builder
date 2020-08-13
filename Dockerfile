@@ -1,10 +1,10 @@
-FROM golang:1.14.6-buster as builder
+FROM golang:1.14.7-buster as builder
 
 ENV COMMONDIR=/common \
     VERSION_GO_SWAGGER=0.19.0 \
-    VERSION_GOLANGCI_LINT=1.28.3 \
+    VERSION_GOLANGCI_LINT=1.30.0 \
     VERSION_JQ=1.6 \
-    VERSION_PROTOC=3.12.3
+    VERSION_PROTOC=3.12.4
 
 # golangci-lint
 RUN curl -fsSLO https://github.com/golangci/golangci-lint/releases/download/v${VERSION_GOLANGCI_LINT}/golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64.tar.gz \
