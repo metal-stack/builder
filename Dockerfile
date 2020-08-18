@@ -1,10 +1,10 @@
-FROM golang:1.13-buster as builder
+FROM golang:1.14.7-buster as builder
 
 ENV COMMONDIR=/common \
     VERSION_GO_SWAGGER=0.19.0 \
-    VERSION_GOLANGCI_LINT=1.23.2 \
+    VERSION_GOLANGCI_LINT=1.30.0 \
     VERSION_JQ=1.6 \
-    VERSION_PROTOC=3.11.3
+    VERSION_PROTOC=3.12.4
 
 # golangci-lint
 RUN curl -fsSLO https://github.com/golangci/golangci-lint/releases/download/v${VERSION_GOLANGCI_LINT}/golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64.tar.gz \
@@ -22,7 +22,7 @@ RUN apt-get update \
         git \
         libpcap-dev \
         python-pip \
-        python-setuptools \
+        python-setuptools \ 
         software-properties-common \
         unzip \
  && curl -fsSL https://github.com/go-swagger/go-swagger/releases/download/v${VERSION_GO_SWAGGER}/swagger_linux_amd64 > /usr/bin/swagger \
