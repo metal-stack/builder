@@ -22,7 +22,7 @@ RUN apt-get update \
         git \
         libpcap-dev \
         python-pip \
-        python-setuptools \ 
+        python-setuptools \
         software-properties-common \
         unzip \
  && curl -fsSL https://github.com/go-swagger/go-swagger/releases/download/v${VERSION_GO_SWAGGER}/swagger_linux_amd64 > /usr/bin/swagger \
@@ -69,4 +69,5 @@ ONBUILD RUN go mod download
 
 # Build
 ONBUILD COPY . .
+ONBUILD ARG CI
 ONBUILD RUN make release
