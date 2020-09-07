@@ -17,12 +17,6 @@ arch = $(word 2, $(temp))
 export GO111MODULE := on
 export CGO_ENABLED
 
-ifeq ($(CI),true)
-  DOCKER_TTY_ARG=""
-else
-  DOCKER_TTY_ARG=t
-endif
-
 ifeq ($(CGO_ENABLED),1)
 	LINKMODE := -linkmode external -extldflags '-static -s -w'
 endif
@@ -92,7 +86,13 @@ test-integration:
 .PHONY: swaggergenerate
 swaggergenerate:
 	echo $(SWAGGERSPEC)
-	GO111MODULE=off docker run -i$(DOCKER_TTY_ARG) --user $$(id -u):$$(id -g) --rm -v ${PWD}:/work metalstack/builder swagger generate client -f $(SWAGGERSPEC) -t $(SWAGGERTARGET) --skip-validation
+	ifeq ($(CI),true)
+		echo "running swagger direct because in CI"
+		GO111MODULE=off swagger generate client -f $(SWAGGERSPEC) -t $(SWAGGERTARGET) --skip-validation
+	else
+		echo "running swagger from builder because not in CI"
+		GO111MODULE=off docker run -it --user $$(id -u):$$(id -g) --rm -v ${PWD}:/work metalstack/builder swagger generate client -f $(SWAGGERSPEC) -t $(SWAGGERTARGET) --skip-validation
+	endif
 
 # Static code analysis
 .PHONY: check
