@@ -86,13 +86,13 @@ test-integration:
 .PHONY: swaggergenerate
 swaggergenerate:
 	echo $(SWAGGERSPEC)
-	ifeq ($(CI),true)
-		echo "running swagger direct because in CI"
-		GO111MODULE=off swagger generate client -f $(SWAGGERSPEC) -t $(SWAGGERTARGET) --skip-validation
-	else
-		echo "running swagger from builder because not in CI"
-		GO111MODULE=off docker run -it --user $$(id -u):$$(id -g) --rm -v ${PWD}:/work metalstack/builder swagger generate client -f $(SWAGGERSPEC) -t $(SWAGGERTARGET) --skip-validation
-	endif
+ifeq ($(CI),true)
+	echo "running swagger directly because in CI"
+	GO111MODULE=off swagger generate client -f $(SWAGGERSPEC) -t $(SWAGGERTARGET) --skip-validation
+else
+	echo "running swagger from builder because not in CI"
+	GO111MODULE=off docker run -it --user $$(id -u):$$(id -g) --rm -v ${PWD}:/work metalstack/builder swagger generate client -f $(SWAGGERSPEC) -t $(SWAGGERTARGET) --skip-validation
+endif
 
 # Static code analysis
 .PHONY: check
