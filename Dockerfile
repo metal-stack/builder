@@ -1,10 +1,12 @@
-FROM golang:1.14.7-buster as builder
+FROM golang:1.14.8-buster as builder
 
 ENV COMMONDIR=/common \
+    IN_BUILDER=true \
     VERSION_GO_SWAGGER=0.19.0 \
-    VERSION_GOLANGCI_LINT=1.30.0 \
+    VERSION_GOLANGCI_LINT=1.31.0 \
     VERSION_JQ=1.6 \
-    VERSION_PROTOC=3.12.4
+    VERSION_PROTOC=3.12.4 \
+    VERSION_DOCKER_MAKE=v0.3.6
 
 # golangci-lint
 RUN curl -fsSLO https://github.com/golangci/golangci-lint/releases/download/v${VERSION_GOLANGCI_LINT}/golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64.tar.gz \
@@ -21,8 +23,6 @@ RUN apt-get update \
         make \
         git \
         libpcap-dev \
-        python-pip \
-        python-setuptools \
         software-properties-common \
         unzip \
  && curl -fsSL https://github.com/go-swagger/go-swagger/releases/download/v${VERSION_GO_SWAGGER}/swagger_linux_amd64 > /usr/bin/swagger \
@@ -47,8 +47,8 @@ RUN curl -fLsS https://download.docker.com/linux/debian/gpg > docker.key \
  && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian buster stable" \
  && apt-get update \
  && apt-get install --yes --no-install-recommends docker-ce \
- && pip install pip --upgrade \
- && pip install --extra-index-url https://pypi.fi-ts.io docker-make \
+ && curl -fLsS https://github.com/fi-ts/docker-make/releases/download/${VERSION_DOCKER_MAKE}/docker-make-linux-amd64 > /usr/bin/docker-make \
+ && chmod +x /usr/bin/docker-make \
  && mkdir -p /etc/docker-make
 COPY registries.yaml /etc/docker-make/registries.yaml
 
