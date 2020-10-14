@@ -1,11 +1,11 @@
-FROM golang:1.14.8-buster as builder
+FROM golang:1.15.2-buster as builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
     VERSION_GO_SWAGGER=0.19.0 \
     VERSION_GOLANGCI_LINT=1.31.0 \
     VERSION_JQ=1.6 \
-    VERSION_PROTOC=3.12.4 \
+    VERSION_PROTOC=3.13.0 \
     VERSION_DOCKER_MAKE=v0.3.6
 
 # golangci-lint
