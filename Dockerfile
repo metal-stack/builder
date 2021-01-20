@@ -1,12 +1,13 @@
-FROM golang:1.15.5-buster as builder
+FROM golang:1.15.7-buster as builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
-    VERSION_GO_SWAGGER=0.25.0 \
-    VERSION_GOLANGCI_LINT=1.33.0 \
+    VERSION_GO_SWAGGER=0.26.0 \
+    VERSION_GOLANGCI_LINT=1.35.2 \
     VERSION_JQ=1.6 \
     VERSION_PROTOC=3.14.0 \
-    VERSION_DOCKER_MAKE=v0.3.6
+    VERSION_DOCKER_MAKE=v0.3.6 \
+    XDG_CACHE_HOME=/tmp/.cache
 
 # golangci-lint
 RUN curl -fsSLO https://github.com/golangci/golangci-lint/releases/download/v${VERSION_GOLANGCI_LINT}/golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64.tar.gz \
@@ -33,7 +34,7 @@ RUN curl -LSs https://github.com/stedolan/jq/releases/download/jq-${VERSION_JQ}/
  && chmod +x /usr/local/bin/jq
 
 # protoc
-RUN curl -fsSLO https://github.com/google/protobuf/releases/download/v${VERSION_PROTOC}/protoc-${VERSION_PROTOC}-linux-x86_64.zip \
+RUN curl -fsSLO https://github.com/protocolbuffers/protobuf/releases/download/v${VERSION_PROTOC}/protoc-${VERSION_PROTOC}-linux-x86_64.zip \
  && unzip "protoc-${VERSION_PROTOC}-linux-x86_64.zip" -d protoc \
  && chmod -R o+rx protoc/ \
  && mv protoc/bin/* /usr/local/bin/ \
