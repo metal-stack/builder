@@ -1,9 +1,9 @@
 name: Docker Image from release tags
 
 on:
-  push:
-    tags:
-      - "v*"
+  release:
+    types:
+      - published
 
 jobs:
   build:
@@ -27,6 +27,6 @@ jobs:
 
     - name: Build and push the released Docker images
       run: |
-        docker build -t metalstack/builder:${{ github.ref }} -t ghcr.io/metal-stack/builder:${{ github.ref }} .
-        docker push metalstack/builder:${{ github.ref }}
-        docker push ghcr.io/metal-stack/builder:${{ github.ref }}
+        docker build -t metalstack/builder:${GITHUB_REF##*/} -t ghcr.io/metal-stack/builder:${GITHUB_REF##*/} .
+        docker push metalstack/builder:${GITHUB_REF##*/}
+        docker push ghcr.io/metal-stack/builder:${GITHUB_REF##*/}
