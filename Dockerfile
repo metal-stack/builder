@@ -6,8 +6,21 @@ ENV COMMONDIR=/common \
     VERSION_GOLANGCI_LINT=1.41.1 \
     VERSION_JQ=1.6 \
     VERSION_PROTOC=3.17.3 \
+    VERSION_PROTOC_GATEWAY=2.5.0 \
     VERSION_DOCKER_MAKE=v0.3.6 \
     XDG_CACHE_HOME=/tmp/.cache
+
+# docker and docker-make
+RUN curl -fLsS https://download.docker.com/linux/debian/gpg > docker.key \
+ && apt-key add docker.key \
+ && rm -f docker.key \
+ && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian buster stable" \
+ && apt-get update \
+ && apt-get install --yes --no-install-recommends docker-ce \
+ && curl -fLsS https://github.com/fi-ts/docker-make/releases/download/${VERSION_DOCKER_MAKE}/docker-make-linux-amd64 > /usr/bin/docker-make \
+ && chmod +x /usr/bin/docker-make \
+ && mkdir -p /etc/docker-make
+COPY registries.yaml /etc/docker-make/registries.yaml
 
 # golangci-lint
 RUN curl -fsSLO https://github.com/golangci/golangci-lint/releases/download/v${VERSION_GOLANGCI_LINT}/golangci-lint-${VERSION_GOLANGCI_LINT}-linux-amd64.tar.gz \
@@ -39,19 +52,12 @@ RUN curl -fsSLO https://github.com/protocolbuffers/protobuf/releases/download/v$
  && chmod -R o+rx protoc/ \
  && mv protoc/bin/* /usr/local/bin/ \
  && mv protoc/include/* /usr/local/include/ \
- && go get -u github.com/golang/protobuf/protoc-gen-go
-
-# docker-make
-RUN curl -fLsS https://download.docker.com/linux/debian/gpg > docker.key \
- && apt-key add docker.key \
- && rm -f docker.key \
- && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian buster stable" \
- && apt-get update \
- && apt-get install --yes --no-install-recommends docker-ce \
- && curl -fLsS https://github.com/fi-ts/docker-make/releases/download/${VERSION_DOCKER_MAKE}/docker-make-linux-amd64 > /usr/bin/docker-make \
- && chmod +x /usr/bin/docker-make \
- && mkdir -p /etc/docker-make
-COPY registries.yaml /etc/docker-make/registries.yaml
+ && go get -u github.com/golang/protobuf/protoc-gen-go \
+ # protoc gateway
+ && curl -fsSLo /usr/local/bin/protoc-gen-grpc-gateway https://github.com/grpc-ecosystem/grpc-gateway/releases/download/v${VERSION_PROTOC_GATEWAY}/protoc-gen-grpc-gateway-v${VERSION_PROTOC_GATEWAY}-linux-x86_64 \
+ && chmod +x /usr/local/bin/protoc-gen-grpc-gateway \
+ && curl -fsSLo /usr/local/bin/protoc-gen-openapiv2 https://github.com/grpc-ecosystem/grpc-gateway/releases/download/v${VERSION_PROTOC_GATEWAY}/protoc-gen-openapiv2-v${VERSION_PROTOC_GATEWAY}-linux-x86_64 \
+ && chmod +x /usr/local/bin/protoc-gen-openapiv2
 
 # mc
 RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc \
