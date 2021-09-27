@@ -9,7 +9,7 @@ GOSRC = $(shell find . -not \( -path vendor -prune \) -type f -name '*.go')
 SWAGGERSPEC := "swagger.json"
 SWAGGERTARGET := "./"
 
-PLATFORMS := linux/amd64 windows/amd64 darwin/amd64
+PLATFORMS := linux/amd64 windows/amd64 darwin/amd64 darwin/arm64
 temp = $(subst /, ,$@)
 os = $(word 1, $(temp))
 arch = $(word 2, $(temp))
