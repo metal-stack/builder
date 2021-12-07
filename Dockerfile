@@ -1,4 +1,4 @@
-FROM golang:1.17.3-buster as builder
+FROM golang:1.17.4-buster as builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
