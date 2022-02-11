@@ -1,11 +1,11 @@
-FROM golang:1.17.6-buster as builder
+FROM golang:1.17.7-buster as builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
-    VERSION_GO_SWAGGER=0.28.0 \
-    VERSION_GOLANGCI_LINT=1.43.0 \
+    VERSION_GO_SWAGGER=0.29.0 \
+    VERSION_GOLANGCI_LINT=1.44.0 \
     VERSION_JQ=1.6 \
-    VERSION_PROTOC=3.19.2 \
+    VERSION_PROTOC=3.19.4 \
     VERSION_DOCKER_MAKE=v0.3.6 \
     XDG_CACHE_HOME=/tmp/.cache
 
@@ -39,7 +39,7 @@ RUN curl -fsSLO https://github.com/protocolbuffers/protobuf/releases/download/v$
  && chmod -R o+rx protoc/ \
  && mv protoc/bin/* /usr/local/bin/ \
  && mv protoc/include/* /usr/local/include/ \
- && go get -u github.com/golang/protobuf/protoc-gen-go
+ && go install github.com/golang/protobuf/protoc-gen-go@latest
 
 # docker-make
 RUN curl -fLsS https://download.docker.com/linux/debian/gpg > docker.key \
