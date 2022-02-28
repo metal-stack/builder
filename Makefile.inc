@@ -69,7 +69,7 @@ vendor:
 
 .PHONY: tidy
 tidy:
-	$(GO) mod tidy
+	$(GO) mod tidy -compat=1.17
 
 .PHONY: test
 test:
