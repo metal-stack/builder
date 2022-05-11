@@ -1,11 +1,11 @@
-FROM golang:1.18.1-buster as builder
+FROM golang:1.18.2-buster as builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
     VERSION_GO_SWAGGER=0.29.0 \
-    VERSION_GOLANGCI_LINT=1.45.2 \
+    VERSION_GOLANGCI_LINT=1.46.0 \
     VERSION_JQ=1.6 \
-    VERSION_PROTOC=3.20.0 \
+    VERSION_PROTOC=3.20.1 \
     VERSION_DOCKER_MAKE=v0.3.6 \
     XDG_CACHE_HOME=/tmp/.cache
 
