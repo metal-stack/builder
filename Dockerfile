@@ -1,4 +1,4 @@
-FROM golang:1.18.5-buster as builder
+FROM golang:1.19.0-buster as builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
@@ -19,13 +19,13 @@ RUN curl -fsSLO https://github.com/golangci/golangci-lint/releases/download/v${V
 # swagger and required packages
 RUN apt-get update \
  && apt-get -y install --no-install-recommends \
-        apt-transport-https \
-        apt-utils \
-        make \
-        git \
-        libpcap-dev \
-        software-properties-common \
-        unzip \
+    apt-transport-https \
+    apt-utils \
+    make \
+    git \
+    libpcap-dev \
+    software-properties-common \
+    unzip \
  && curl -fsSL https://github.com/go-swagger/go-swagger/releases/download/v${VERSION_GO_SWAGGER}/swagger_linux_amd64 > /usr/bin/swagger \
  && chmod +x /usr/bin/swagger
 
