@@ -53,11 +53,6 @@ RUN curl -fLsS https://download.docker.com/linux/debian/gpg > docker.key \
  && mkdir -p /etc/docker-make
 COPY registries.yaml /etc/docker-make/registries.yaml
 
-# mc
-RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc \
- && chmod +x mc \
- && mv mc /bin/mc
-
 WORKDIR /common
 COPY Makefile.inc /common/Makefile.inc
 COPY time.go /common/time.go
