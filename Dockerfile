@@ -2,7 +2,7 @@ FROM golang:1.19.5-buster as builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
-    VERSION_GO_SWAGGER=0.30.3 \
+    VERSION_GO_SWAGGER=0.30.4 \
     VERSION_GOLANGCI_LINT=1.50.1 \
     VERSION_JQ=1.6 \
     VERSION_PROTOC=3.20.1 \
