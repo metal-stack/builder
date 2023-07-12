@@ -1,4 +1,4 @@
-FROM golang:1.20.6-buster as builder
+FROM golang:1.20.6-bookworm as builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
@@ -45,7 +45,7 @@ RUN curl -fsSLO https://github.com/protocolbuffers/protobuf/releases/download/v$
 RUN curl -fLsS https://download.docker.com/linux/debian/gpg > docker.key \
  && apt-key add docker.key \
  && rm -f docker.key \
- && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian buster stable" \
+ && echo "deb [arch=amd64] https://download.docker.com/linux/debian bookworm stable" > /etc/apt/sources.list.d/docker.list \
  && apt-get update \
  && apt-get install --yes --no-install-recommends docker-ce \
  && curl -fLsS https://github.com/fi-ts/docker-make/releases/download/${VERSION_DOCKER_MAKE}/docker-make-linux-amd64 > /usr/bin/docker-make \
