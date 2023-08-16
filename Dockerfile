@@ -1,9 +1,9 @@
-FROM golang:1.20.6-bookworm as builder
+FROM golang:1.21.0-bookworm as builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
     VERSION_GO_SWAGGER=0.30.5 \
-    VERSION_GOLANGCI_LINT=1.53.3 \
+    VERSION_GOLANGCI_LINT=1.54.1 \
     VERSION_JQ=1.6 \
     VERSION_PROTOC=3.20.1 \
     VERSION_DOCKER_MAKE=v0.3.6 \
