@@ -1,10 +1,10 @@
-FROM golang:1.21.0-bookworm as builder
+FROM golang:1.21.1-bookworm as builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
     VERSION_GO_SWAGGER=0.30.5 \
-    VERSION_GOLANGCI_LINT=1.54.1 \
-    VERSION_JQ=1.6 \
+    VERSION_GOLANGCI_LINT=1.54.2 \
+    VERSION_JQ=1.7 \
     VERSION_PROTOC=3.20.1 \
     VERSION_DOCKER_MAKE=v0.3.6 \
     XDG_CACHE_HOME=/tmp/.cache
@@ -30,7 +30,7 @@ RUN apt-get update \
  && chmod +x /usr/bin/swagger
 
 # jq
-RUN curl -LSs https://github.com/stedolan/jq/releases/download/jq-${VERSION_JQ}/jq-linux64 -o /usr/local/bin/jq \
+RUN curl -LSs https://github.com/jqlang/jq/releases/download/jq-${VERSION_JQ}/jq-linux-amd64 -o /usr/local/bin/jq \
  && chmod +x /usr/local/bin/jq
 
 # protoc
