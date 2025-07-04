@@ -1,12 +1,13 @@
-FROM golang:1.24.3-bookworm AS builder
+FROM golang:1.24.4-bookworm AS builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
     VERSION_GO_SWAGGER=0.31.0 \
-    VERSION_GOLANGCI_LINT=1.64.4 \
+    VERSION_GOLANGCI_LINT=2.2.1 \
     VERSION_JQ=1.7 \
     VERSION_PROTOC=3.20.1 \
     VERSION_DOCKER_MAKE=v0.3.6 \
+    VERSION_TYPST=v0.13.1 \
     XDG_CACHE_HOME=/tmp/.cache
 
 # golangci-lint
@@ -26,12 +27,19 @@ RUN apt-get update \
     libpcap-dev \
     software-properties-common \
     unzip \
+    xz-utils \
  && curl -fsSL https://github.com/go-swagger/go-swagger/releases/download/v${VERSION_GO_SWAGGER}/swagger_linux_amd64 > /usr/bin/swagger \
  && chmod +x /usr/bin/swagger
 
 # jq
 RUN curl -LSs https://github.com/jqlang/jq/releases/download/jq-${VERSION_JQ}/jq-linux-amd64 -o /usr/local/bin/jq \
  && chmod +x /usr/local/bin/jq
+
+# typst
+RUN curl -fsSLO https://github.com/typst/typst/releases/download/${VERSION_TYPST}/typst-x86_64-unknown-linux-musl.tar.xz \
+ && tar --extract --file typst-x86_64-unknown-linux-musl.tar.xz typst-x86_64-unknown-linux-musl/typst \
+ && mv typst-x86_64-unknown-linux-musl/typst /usr/bin \
+ && rm -f typst-x86_64-unknown-linux-musl.tar.xz 
 
 # protoc
 RUN curl -fsSLO https://github.com/protocolbuffers/protobuf/releases/download/v${VERSION_PROTOC}/protoc-${VERSION_PROTOC}-linux-x86_64.zip \
