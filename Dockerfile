@@ -1,4 +1,4 @@
-FROM golang:1.25.6-bookworm AS builder
+FROM golang:1.25.7-bookworm AS builder
 
 ENV COMMONDIR=/common \
     IN_BUILDER=true \
